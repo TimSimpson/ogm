@@ -20,14 +20,18 @@ OUTPUT_PATH = ROOT_PATH / "output"
 @cmd("deps", "downloads latest dependencies")
 def cmd_deps(args: t.List[str]) -> int:
     os.makedirs(SPECS_PATH, exist_ok=True)
-    subprocess.check_call(
-        [
-            "wget",
-            "https://github.com/OAI/OpenAPI-Specification/blob/main/examples/"
-            "v3.0/api-with-examples.yaml",
-        ],
-        cwd=SPECS_PATH,
-    )
+    example_files = [
+        "petstore.json",
+        "petstore-expanded.json"
+    ]
+    for file_name in example_files:
+        subprocess.check_call(
+            [
+                "wget",
+                f"https://raw.githubusercontent.com/OAI/OpenAPI-Specification/refs/heads/main/examples/v3.0/{file_name}",
+            ],
+            cwd=SPECS_PATH,
+        )
 
     open_api_jar = DEPS_PATH / "openapi-generator-cli.jar"
 
@@ -69,6 +73,7 @@ def cmd_gen(args: t.List[str]) -> int:
 
     os.makedirs(OUTPUT_PATH, exist_ok=True)
 
+    #  ../deps/openapi-generator generate -g go  -o go --input-spec-root-directory ../deps/specs/  -t ../../templates/go
     subprocess.check_call(
         [
             OPEN_API_CLI,

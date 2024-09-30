@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	{{#coreClientTypeNamePackage}}"{{coreClientTypeNamePackage}}"{{/coreClientTypeNamePackage}}
 {{#imports}}	"{{import}}"
 {{/imports}}
 )
@@ -39,10 +40,10 @@ type {{classname}} interface {
 // {{classname}}Impl definition
 // ***************************************************************************
 type {{classname}}Impl struct {
-	client Client
+	client {{coreClientTypeName}}
 }
 
-func New{{classname}}(client Client) {{classname}} {
+func New{{classname}}(client {{coreClientTypeName}}) {{classname}} {
 	return &{{classname}}Impl{
 		client: client,
 	}
@@ -64,7 +65,7 @@ func (self *{{classname}}Impl) {{operationId}}(ctx context.Context{{#pathParams}
 
 {{#operations}}
 {{#operation}}
-func {{operationId}}(ctx context.Context, client Client {{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}{{#bodyParam}}, {{paramName}} {{{dataType}}}{{/bodyParam}}) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}error) {
+func {{operationId}}(ctx context.Context, client {{coreClientTypeName}} {{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}{{#bodyParam}}, {{paramName}} {{{dataType}}}{{/bodyParam}}) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}error) {
 	// ggdfg
 
 	relativeUrl := "{{{path}}}"{{#pathParams}}

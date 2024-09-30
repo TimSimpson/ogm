@@ -91,7 +91,7 @@ public class GoLiteGenerator extends org.openapitools.codegen.languages.GoClient
      */
     modelTemplateFiles.put(
         "model.mustache", // the template to use
-        "_yokai.go"); // the extension for each file to write
+        ".go"); // the extension for each file to write
 
     /**
      * Api classes. You can write classes for each Api file with the
@@ -137,6 +137,15 @@ public class GoLiteGenerator extends org.openapitools.codegen.languages.GoClient
      */
     additionalProperties.put("apiVersion", apiVersion);
 
+    if (!additionalProperties.containsKey("coreClientTypeName")) {
+      additionalProperties.put("coreClientTypeName", "Client");
+    }
+
+    // if (!additionalProperties.containsKey("coreClientTypeNamePackage")) {
+    // additionalProperties.put("coreClientTypeNamePackage", "");
+    // }
+
+    // additionalProperties.put("coreClientPackage", "");
     // /**
     // * Language Specific Primitives. These types will not trigger imports by
     // * the client generator
@@ -152,7 +161,10 @@ public class GoLiteGenerator extends org.openapitools.codegen.languages.GoClient
     super.processOpts();
     this.supportingFiles.clear();
 
-    this.supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
+    final Object value = this.additionalProperties.get("coreClientTypeNamePackage");
+    if (value == null || ((value instanceof String) && ((String) value) == "")) {
+      this.supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
+    }
   }
 
   /**

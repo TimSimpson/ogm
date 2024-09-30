@@ -1,0 +1,110 @@
+package {{packageName}}
+
+import (
+	"context"
+	"fmt"
+	"net/url"
+{{#imports}}	"{{import}}"
+{{/imports}}
+)
+
+type {{classname}} interface {
+	{{#operations}}
+	{{#operation}}
+
+	/*
+	{{operationId}} {{{summary}}}{{^summary}}Method for {{operationId}}{{/summary}}
+	{{#notes}}
+
+	{{{unescapedNotes}}}
+	{{/notes}}
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+	@param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+	{{#bodyParams}}
+	@param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/bodyParams}}
+	@return ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}error)
+	{{#isDeprecated}}
+
+	Deprecated
+	{{/isDeprecated}}
+	*/
+	{{{nickname}}}(ctx context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}{{#bodyParam}}, {{paramName}} {{{dataType}}}{{/bodyParam}}) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}error)
+
+	{{/operation}}
+	{{/operations}}
+}
+
+// ***************************************************************************
+// {{classname}}Impl definition
+// ***************************************************************************
+type {{classname}}Impl struct {
+	client Client
+}
+
+func New{{classname}}(client Client) {{classname}} {
+	return &{{classname}}Impl{
+		client: client,
+	}
+}
+
+{{#operations}}
+{{#operation}}
+func (self *{{classname}}Impl) {{operationId}}(ctx context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}{{#bodyParam}}, {{paramName}} {{{dataType}}}{{/bodyParam}}) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}error) {
+	return {{operationId}}(ctx, self.client{{#pathParams}}, {{paramName}}{{/pathParams}}{{#bodyParam}}, {{paramName}}{{/bodyParam}})
+}
+
+{{/operation}}
+{{/operations}}
+
+
+// ***************************************************************************
+// Operations
+// ***************************************************************************
+
+{{#operations}}
+{{#operation}}
+func {{operationId}}(ctx context.Context, client Client {{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}{{#bodyParam}}, {{paramName}} {{{dataType}}}{{/bodyParam}}) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}error) {
+	// ggdfg
+
+	relativeUrl := "{{{path}}}"{{#pathParams}}
+	relativeUrl = strings.Replace(relativeUrl, "{"+"{{{baseName}}}"+"}", url.PathEscape(fmt.Sprint({{paramName}}, "{{paramName}}")), -1){{/pathParams}}
+
+	{{#queryParams.length}}
+	queryParams := url.Values{}
+	{{#queryParams}}
+	{{^required}}
+	if {{paramName}} == nil {
+	{{/required}}
+	queryParams.Add("{{{baseName}}}", fmt.Sprint({{paramName}}))
+	{{^required}}
+	}
+	{{/required}}
+	{{/queryParams}}
+	relativeUrl += req.URL.Query().Encode()
+	{{/queryParams.length}}
+
+	{{^bodyParams.0}}
+	hasBody := false
+	var body struct{}
+	{{/bodyParams.0}}
+	{{#bodyParams}}
+	// body params
+	hasBody := true
+	body := {{paramName}}
+	{{/bodyParams}}
+
+	hasResult := true
+	{{^returnType}}
+	var result struct{}
+	{{/returnType}}
+	{{#returnType}}var result {{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}{{/returnType}}
+
+	err := client.SendRequest(ctx, "{{{httpMethod}}}", relativeUrl,  hasBody, body, hasResult, result)
+	return {{#returnType}}result, {{/returnType}}err
+}
+
+
+{{/operation}}
+{{/operations}}
+

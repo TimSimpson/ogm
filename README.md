@@ -115,10 +115,10 @@ pushd scripts
 rye sync
 source .venv/bin/activate
 popd # not strictly necessary
-ogtt deps openapi-generator
-ogtt deps example
-ogtt build go-lite
-ogtt gen go-lite
+ogm deps openapi-generator
+ogm deps example
+ogm build go-lite
+ogm gen go-lite
 ```
 
 ## Notes

@@ -10,4 +10,4 @@
 
 -e file:.
 frontdoor==0.1.5
-    # via ogtt
+    # via ogm

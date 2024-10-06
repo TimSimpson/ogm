@@ -6,7 +6,7 @@ import sys
 import textwrap
 import typing as t
 
-REGISTRY = frontdoor.CommandRegistry("ogtt")
+REGISTRY = frontdoor.CommandRegistry("ogm")
 cmd = REGISTRY.decorate
 
 ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../..")

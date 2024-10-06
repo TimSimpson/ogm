@@ -13,7 +13,7 @@ black==24.8.0
 click==8.1.7
     # via black
 frontdoor==0.1.5
-    # via ogtt
+    # via ogm
 mypy==1.11.2
 mypy-extensions==1.0.0
     # via black

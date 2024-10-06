@@ -29,37 +29,33 @@ def cmd_gen(args: t.List[str]) -> int:
         shutil.rmtree(output)
     shutil.copytree(paths.GENERATORS / "go-lite-example-stub", output)
 
-    for (pkg_name, spec) in [
+    for pkg_name, spec in [
         ("petstore", "petstore-expanded.json"),
         ("djangoCrm", "django-crm.yml"),
     ]:
         args = _exec_args(
-                [
-                    "generate",
-                    "-g",
-                    "go-lite",
-                    # see https://github.com/OpenAPITools/openapi-generator/issues/535
-                    "--additional-properties=enumClassPrefix=true",
-                    "--additional-properties=modelsLite=true",
-                    "--additional-properties=generateMarshalJSON=false",
-                    "--additional-properties=generateUnmarshalJSON=false",
-                    "-o",
-                    str(paths.OUTPUT / "go-lite" / pkg_name),
-                    "--package-name",
-                    pkg_name,
-                    "--input-spec",
-                    str(paths.SPECS / spec),
-                ]
-            )
+            [
+                "generate",
+                "-g",
+                "go-lite",
+                # see https://github.com/OpenAPITools/openapi-generator/issues/535
+                "--additional-properties=enumClassPrefix=true",
+                "--additional-properties=modelsLite=true",
+                "--additional-properties=generateMarshalJSON=false",
+                "--additional-properties=generateUnmarshalJSON=false",
+                "-o",
+                str(paths.OUTPUT / "go-lite" / pkg_name),
+                "--package-name",
+                pkg_name,
+                "--input-spec",
+                str(paths.SPECS / spec),
+            ]
+        )
         print(f"args = {args}")
-        subprocess.check_output(args        )
+        subprocess.check_output(args)
 
-    subprocess.check_call(
-        ["goimports", "-w", "."], cwd=output
-    )
-    subprocess.check_call(
-        ["go", "mod", "tidy"], cwd=output
-    )
+    subprocess.check_call(["goimports", "-w", "."], cwd=output)
+    subprocess.check_call(["go", "mod", "tidy"], cwd=output)
     return subprocess.call(
         ["go", "build"],
         cwd=output,

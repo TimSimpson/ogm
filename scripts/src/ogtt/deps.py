@@ -20,6 +20,7 @@ def cmd_deps(args: t.List[str]) -> int:
         "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/refs/heads/main/examples/v3.0/petstore.json",
         "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/refs/heads/main/examples/v3.0/petstore-expanded.json",
         "https://raw.githubusercontent.com/api-extraction-examples/existing-openapi-specs/refs/heads/main/django/django-4/intel-owl.yml",
+        "https://github.com/api-extraction-examples/existing-openapi-specs/raw/refs/heads/main/django/django-4/django-crm.yml",
     ]
     for url in example_files:
         subprocess.check_call(

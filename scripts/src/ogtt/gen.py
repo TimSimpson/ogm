@@ -22,29 +22,41 @@ def _exec_args(args: t.List[str]) -> t.List[str]:
     ] + args
 
 
-@cmd("petstore", "builds the petstore example")
+@cmd("go-lite", "builds a project with go-lite to test it")
 def cmd_gen(args: t.List[str]) -> int:
-    output = paths.OUTPUT / "go/petstore"
+    output = paths.OUTPUT / "go-lite"
     if output.exists():
         shutil.rmtree(output)
     shutil.copytree(paths.GENERATORS / "go-lite-example-stub", output)
 
-    subprocess.check_output(
-        _exec_args(
-            [
-                "generate",
-                "-g",
-                "go-lite",
-                "-o",
-                str(paths.OUTPUT / "go/petstore/generated"),
-                "--package-name",
-                "petstore",
-                "--input-spec",
-                str(paths.SPECS / "petstore-expanded.json"),
-            ]
+    for (pkg_name, spec) in [
+        ("petstore", "petstore-expanded.json"),
+        ("djangoCrm", "django-crm.yml"),
+    ]:
+        subprocess.check_output(
+            _exec_args(
+                [
+                    "generate",
+                    "-g",
+                    "go-lite",
+                    # see https://github.com/OpenAPITools/openapi-generator/issues/535
+                    "--additional-properties=enumClassPrefix=true",
+                    "-o",
+                    str(paths.OUTPUT / "go-lite" / pkg_name),
+                    "--package-name",
+                    pkg_name,
+                    "--input-spec",
+                    str(paths.SPECS / spec),
+                ]
+            )
         )
-    )
 
+    subprocess.check_call(
+        ["goimports", "-w", "."], cwd=output
+    )
+    subprocess.check_call(
+        ["go", "mod", "tidy"], cwd=output
+    )
     return subprocess.call(
         ["go", "build"],
         cwd=output,

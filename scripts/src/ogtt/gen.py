@@ -33,15 +33,14 @@ def cmd_gen(args: t.List[str]) -> int:
         ("petstore", "petstore-expanded.json"),
         ("djangoCrm", "django-crm.yml"),
     ]:
-        subprocess.check_output(
-            _exec_args(
+        args = _exec_args(
                 [
                     "generate",
                     "-g",
                     "go-lite",
                     # see https://github.com/OpenAPITools/openapi-generator/issues/535
                     "--additional-properties=enumClassPrefix=true",
-                    "--additional-properties=structPrefix=true",
+                    "--additional-properties=modelsLite=true",
                     "--additional-properties=generateMarshalJSON=false",
                     "--additional-properties=generateUnmarshalJSON=false",
                     "-o",
@@ -52,7 +51,8 @@ def cmd_gen(args: t.List[str]) -> int:
                     str(paths.SPECS / spec),
                 ]
             )
-        )
+        print(f"args = {args}")
+        subprocess.check_output(args        )
 
     subprocess.check_call(
         ["goimports", "-w", "."], cwd=output

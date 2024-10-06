@@ -82,16 +82,16 @@ public class GoLiteGenerator extends org.openapitools.codegen.languages.GoClient
     // set the output folder here
     outputFolder = "generated-code/go-lite";
 
-    /**
-     * Models. You can write model files using the modelTemplateFiles map.
-     * if you want to create one template for file, you can do so here.
-     * for multiple files for model, just put another entry in the
-     * `modelTemplateFiles` with
-     * a different extension
-     */
-    modelTemplateFiles.put(
-        "model.mustache", // the template to use
-        ".go"); // the extension for each file to write
+    // /**
+    // * Models. You can write model files using the modelTemplateFiles map.
+    // * if you want to create one template for file, you can do so here.
+    // * for multiple files for model, just put another entry in the
+    // * `modelTemplateFiles` with
+    // * a different extension
+    // */
+    // modelTemplateFiles.put(
+    // "model.mustache", // the template to use
+    // ".go"); // the extension for each file to write
 
     /**
      * Api classes. You can write classes for each Api file with the
@@ -137,6 +137,8 @@ public class GoLiteGenerator extends org.openapitools.codegen.languages.GoClient
      */
     additionalProperties.put("apiVersion", apiVersion);
 
+    additionalProperties.put("apiVersion", apiVersion);
+
     if (!additionalProperties.containsKey("coreClientTypeName")) {
       additionalProperties.put("coreClientTypeName", "Client");
     }
@@ -159,8 +161,17 @@ public class GoLiteGenerator extends org.openapitools.codegen.languages.GoClient
   @Override
   public void processOpts() {
     super.processOpts();
+
     this.supportingFiles.clear();
     this.supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
+
+    if (additionalProperties.containsKey("modelsLite") && Boolean.parseBoolean(additionalProperties
+        .get("modelsLite").toString())) {
+      this.modelTemplateFiles.clear();
+      this.modelTemplateFiles.put("ml_model.mustache", ".go");
+      this.supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
+    }
+
     final Object value = this.additionalProperties.get("coreClientTypeNamePackage");
     if (value == null || ((value instanceof String) && ((String) value) == "")) {
       this.supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));

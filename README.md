@@ -1,10 +1,10 @@
-# OpenAPI Generator Templates
+# OpenAPI Generator Mods
 
-This repo contains some opionated Client templates for the Open API generator project.
+This repo contains some plugins / modifications for the Open API generator project.
 
-## Clients
+## Plugins
 
-### Go Client "Lite"
+### go-lite
 
 Generates Go clients but without as much code as the official clients.
 Only supports JSON and many features may be missing. However the result is simple and close to what a hand generated client may have looked like.
@@ -33,6 +33,8 @@ Finally, if you're generating multiple API specs but want to share the core clie
 ```
 
 in the example above generated code would import `github.com/TimSimpson/SomeThing/core` and use the type `core.Client` instead of `Client` everywhere.
+
+Also, specifying "--additional-properties=modelsLite=true" will make the generated models very simple (to the point they may not work in some cases).
 
 BTW, here is an rudimentary example of a "core" client:
 
@@ -115,7 +117,7 @@ source .venv/bin/activate
 popd # not strictly necessary
 ogtt deps openapi-generator
 ogtt deps example
-ogtt build
+ogtt build go-lite
 ogtt gen go-lite
 ```
 

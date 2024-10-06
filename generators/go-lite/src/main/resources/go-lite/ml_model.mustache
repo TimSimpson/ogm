@@ -11,10 +11,10 @@ import (
 
 {{#model}}
 {{#isEnum}}
-{{>model_enum}}
+{{>ml_model_enum}}
 {{/isEnum}}
 {{^isEnum}}
-{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>model_anyof}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>model_simple}}{{/anyOf}}{{/oneOf}}
+{{#oneOf}}{{#-first}}{{>ml_model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>ml_model_anyof}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>ml_model_simple}}{{/anyOf}}{{/oneOf}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

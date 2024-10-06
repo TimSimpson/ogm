@@ -160,7 +160,7 @@ public class GoLiteGenerator extends org.openapitools.codegen.languages.GoClient
   public void processOpts() {
     super.processOpts();
     this.supportingFiles.clear();
-
+    this.supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
     final Object value = this.additionalProperties.get("coreClientTypeNamePackage");
     if (value == null || ((value instanceof String) && ((String) value) == "")) {
       this.supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));

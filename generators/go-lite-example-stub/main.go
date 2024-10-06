@@ -20,6 +20,6 @@ func main() {
 	}
 	fmt.Printf("Got pet: %s", pet)
 
-	djangoCrmClient := djangoCrm.NewDefaultAPI(core)
+	djangoCrmClient := djangoCrm.NewCasesAPI(core)
 	fmt.Printf("just doing this to avoid the unused var error: %s", djangoCrmClient)
 }

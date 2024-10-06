@@ -41,6 +41,8 @@ def cmd_gen(args: t.List[str]) -> int:
                     "go-lite",
                     # see https://github.com/OpenAPITools/openapi-generator/issues/535
                     "--additional-properties=enumClassPrefix=true",
+                    "--additional-properties=generateMarshalJSON=false",
+                    "--additional-properties=generateUnmarshalJSON=false",
                     "-o",
                     str(paths.OUTPUT / "go-lite" / pkg_name),
                     "--package-name",

@@ -11,9 +11,9 @@ cmd = REGISTRY.decorate
 
 def _exec_args(args: t.List[str]) -> t.List[str]:
     go_lite_jar = (
-        paths.GENERATORS_PATH / "go-lite/target/go-lite-openapi-generator-1.0.0.jar"
+        paths.GENERATORS / "go-lite/target/go-lite-openapi-generator-1.0.0.jar"
     )
-    cli_jar = paths.DEPS_PATH / "openapi-generator-cli.jar"
+    cli_jar = paths.DEPS / "openapi-generator-cli.jar"
     return [
         "java",
         "-cp",
@@ -24,10 +24,10 @@ def _exec_args(args: t.List[str]) -> t.List[str]:
 
 @cmd("petstore", "builds the petstore example")
 def cmd_gen(args: t.List[str]) -> int:
-    output = paths.OUTPUT_PATH / "go/petstore"
-    if output.exists:
+    output = paths.OUTPUT / "go/petstore"
+    if output.exists():
         shutil.rmtree(output)
-    shutil.copytree(paths.GENERATORS_PATH / "go-lite-example-stub", output)
+    shutil.copytree(paths.GENERATORS / "go-lite-example-stub", output)
 
     subprocess.check_output(
         _exec_args(
@@ -36,11 +36,11 @@ def cmd_gen(args: t.List[str]) -> int:
                 "-g",
                 "go-lite",
                 "-o",
-                str(paths.OUTPUT_PATH / "go/petstore/generated"),
+                str(paths.OUTPUT / "go/petstore/generated"),
                 "--package-name",
                 "petstore",
                 "--input-spec",
-                str(paths.SPECS_PATH / "petstore-expanded.json"),
+                str(paths.SPECS / "petstore-expanded.json"),
             ]
         )
     )

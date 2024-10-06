@@ -14,7 +14,7 @@ from . import paths
 
 @cmd("examples", "downloads existing open api specs")
 def cmd_deps(args: t.List[str]) -> int:
-    os.makedirs(paths.SPECS_PATH, exist_ok=True)
+    os.makedirs(paths.SPECS, exist_ok=True)
     print("Downloading example specs...")
     example_files = [
         "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/refs/heads/main/examples/v3.0/petstore.json",
@@ -27,7 +27,7 @@ def cmd_deps(args: t.List[str]) -> int:
                 "wget",
                 url,
             ],
-            cwd=paths.SPECS_PATH,
+            cwd=paths.SPECS,
         )
     return 0
 
@@ -35,7 +35,7 @@ def cmd_deps(args: t.List[str]) -> int:
 @cmd("openapi-generator", "Downloads the openapi-generator jar")
 def cmd_openapi_generator(args: t.List[str]) -> int:
     print("Downloading openapi-generator-cli...")
-    open_api_jar = paths.DEPS_PATH / "openapi-generator-cli.jar"
+    open_api_jar = paths.DEPS / "openapi-generator-cli.jar"
 
     subprocess.check_call(
         [
@@ -45,13 +45,13 @@ def cmd_openapi_generator(args: t.List[str]) -> int:
             "-O",
             str(open_api_jar),
         ],
-        cwd=paths.DEPS_PATH,
+        cwd=paths.DEPS,
     )
 
     print("creating openapi-generator-cli script...")
-    open_api_jar = paths.DEPS_PATH / "openapi-generator-cli.jar"
+    open_api_jar = paths.DEPS / "openapi-generator-cli.jar"
 
-    with open(paths.DEPS_PATH / paths.OPEN_API_CLI, "w") as file:
+    with open(paths.DEPS / paths.OPEN_API_CLI, "w") as file:
         file.write(
             textwrap.dedent(
                 f"""

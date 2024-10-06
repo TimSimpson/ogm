@@ -102,7 +102,19 @@ func (self *HttpClient) SendRequest(ctx context.Context, method, relativeUrl str
 ```
 
 
+## Building
 
+This uses Python instead of shell scripts to build and test everything.
+
+I recommend installing rye and doing this:
+
+```bash
+rye sync
+source .venv/bin/activate
+ogtt deps
+ogtt build
+ogtt gen go-lite
+```
 
 ## Notes
 

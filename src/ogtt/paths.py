@@ -2,10 +2,10 @@ import os
 import pathlib
 import typing as t
 
-ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../..")
-ROOT_PATH = pathlib.Path(ROOT)
-DEPS_PATH = ROOT_PATH / "deps"
-GENERATORS_PATH = ROOT_PATH / "../generators"
-SPECS_PATH = DEPS_PATH / "specs"
-OPEN_API_CLI = DEPS_PATH / "openapi-generator"
-OUTPUT_PATH = ROOT_PATH / "output"
+_ROOT_STR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../..")
+ROOT = pathlib.Path(_ROOT_STR)
+DEPS = ROOT / "deps"
+GENERATORS = ROOT / "../generators"
+SPECS = DEPS / "specs"
+OPEN_API_CLI = DEPS / "openapi-generator"
+OUTPUT = ROOT / "output"

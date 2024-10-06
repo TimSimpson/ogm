@@ -15,6 +15,6 @@ def cmd_gen(args: t.List[str]) -> int:
             "mvn",
             "package",
         ],
-        cwd=paths.GENERATORS_PATH / "go-lite",
+        cwd=paths.GENERATORS / "go-lite",
     )
     return 0

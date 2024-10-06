@@ -102,7 +102,7 @@ func (self *HttpClient) SendRequest(ctx context.Context, method, relativeUrl str
 ```
 
 
-## Building
+## Building / Test
 
 This uses Python instead of shell scripts to build and test everything.
 
@@ -113,7 +113,8 @@ pushd scripts
 rye sync
 source .venv/bin/activate
 popd # not strictly necessary
-ogtt deps
+ogtt deps openapi-generator
+ogtt deps example
 ogtt build
 ogtt gen go-lite
 ```

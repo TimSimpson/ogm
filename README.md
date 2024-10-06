@@ -109,8 +109,10 @@ This uses Python instead of shell scripts to build and test everything.
 I recommend installing rye and doing this:
 
 ```bash
+pushd scripts
 rye sync
 source .venv/bin/activate
+popd # not strictly necessary
 ogtt deps
 ogtt build
 ogtt gen go-lite

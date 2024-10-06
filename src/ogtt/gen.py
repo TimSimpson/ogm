@@ -29,7 +29,7 @@ def cmd_gen(args: t.List[str]) -> int:
         shutil.rmtree(output)
     shutil.copytree(paths.GENERATORS_PATH / "go-lite-example-stub", output)
 
-    return subprocess.call(
+    subprocess.check_output(
         _exec_args(
             [
                 "generate",
@@ -43,4 +43,9 @@ def cmd_gen(args: t.List[str]) -> int:
                 str(paths.SPECS_PATH / "petstore-expanded.json"),
             ]
         )
+    )
+
+    return subprocess.call(
+        ["go", "build"],
+        cwd=output,
     )

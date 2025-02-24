@@ -93,14 +93,16 @@ func {{operationId}}(ctx context.Context, client {{coreClientTypeName}} {{#pathP
 	body := {{paramName}}
 	{{/bodyParams}}
 
-	hasResult := true
 	{{^returnType}}
+	hasResult := false
 	var result struct{}
 	{{/returnType}}
-	{{#returnType}}var result {{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}{{/returnType}}
+	{{#returnType}}
+	hasResult := true
+	var result {{^isArray}}{{^returnTypeIsPrimitive}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}{{/returnType}}
 
-	err := client.SendRequest(ctx, "{{{httpMethod}}}", relativeUrl,  hasBody, body, hasResult, result)
-	return {{#returnType}}result, {{/returnType}}err
+	err := client.SendRequest(ctx, "{{{httpMethod}}}", relativeUrl,  hasBody, body, hasResult, {{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}&{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}result)
+	return {{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}&{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}result, {{/returnType}}err
 }
 
 

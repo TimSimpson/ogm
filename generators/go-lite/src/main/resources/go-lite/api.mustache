@@ -67,7 +67,7 @@ func (self *{{classname}}Impl) {{operationId}}(ctx context.Context{{#pathParams}
 {{#operation}}
 func {{operationId}}(ctx context.Context, client {{coreClientTypeName}} {{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}{{#bodyParam}}, {{paramName}} {{{dataType}}}{{/bodyParam}}) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}error) {
 	relativeUrl := "{{{path}}}"{{#pathParams}}
-	relativeUrl = strings.Replace(relativeUrl, "{"+"{{{baseName}}}"+"}", url.PathEscape(fmt.Sprint({{paramName}}, "{{paramName}}")), -1){{/pathParams}}
+	relativeUrl = strings.Replace(relativeUrl, "{"+"{{{baseName}}}"+"}", url.PathEscape(fmt.Sprint({{paramName}})), -1){{/pathParams}}
 
 	{{#queryParams.length}}
 	queryParams := url.Values{}
